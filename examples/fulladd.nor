@@ -1,4 +1,4 @@
-# 7. 4bit add
+# 6. full add
 function not(a)
   return a nor a
 end
@@ -25,17 +25,11 @@ function fulladd(a, b, x)
   return [c, s]
 end
 
-function add(a, b)
-  x = 0
-  s = [0, 0, 0, 0]
-  for i = 3 to 0 step -1
-    cs = fulladd(a[i], b[i], x)
-    x = cs[0]
-    s[i] = cs[1]
-  next
-  return s
-end
-
-a = [0, 1, 0, 0] # 4
-b = [0, 1, 0, 1] # 5
-print add(a, b)
+print fulladd(0, 0, 0)
+print fulladd(0, 0, 1)
+print fulladd(0, 1, 0)
+print fulladd(0, 1, 1)
+print fulladd(1, 0, 0)
+print fulladd(1, 0, 1)
+print fulladd(1, 1, 0)
+print fulladd(1, 1, 1)

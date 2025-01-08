@@ -3,6 +3,6 @@ nor.nor,1. nor
 not.nor,2. not
 or.nor,3. or
 and.nor,4. and
-halfadder.nor,5. half adder
-fulladder.nor,6. full adder
+halfadd.nor,5. half add
+fulladd.nor,6. full add
 add.nor,7. 4bit add
