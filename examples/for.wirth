@@ -1,9 +1,0 @@
-# 11. for - Sequential Loop Statements
-for i = 0 to 15
-  print i, i // 3, i / 3
-next
-
-for i = 5 to 0 step -0.5
-  print i
-next
-

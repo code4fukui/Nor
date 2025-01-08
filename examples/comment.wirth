@@ -1,6 +1,0 @@
-# 14. comment
-a = 10 #=
-multi line
-comment
-=#
-print a

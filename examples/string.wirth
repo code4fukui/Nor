@@ -1,5 +1,0 @@
-# 8. string
-s = "ABC"
-print s
-print s[5] + "_"
-print s[0],s[2] # A C is displayed

@@ -1,6 +1,0 @@
-# 3. var name by Japanese
-身長 = 176
-体重 = 64
-身長m = 身長 / 100
-BMI = 体重 / (身長m * 身長m)
-print "BMIは", BMI

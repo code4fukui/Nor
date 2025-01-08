@@ -1,6 +1,0 @@
-# 13. do until - post-check loop
-i = 0
-do
-  print i
-  i = i + 1
-until i >= 10
