@@ -41,6 +41,7 @@ class Scope {
     this.parent = parent;
   }
   isDefined(name) {
+    // return this.vars[name] !== undefined;
     for (let scope = this; scope; scope = scope.parent) {
       if (scope.vars[name] !== undefined) {
         return true;
@@ -54,6 +55,11 @@ class Scope {
         return scope.vars[name];
       }
     }
+    /*
+    if (this.vars[name] !== undefined) {
+      return this.vars[name];
+    }
+    */
     //throw new Error("定義されていない変数 " + name + " が使われました");
     throw new Error("undefined var " + name + " is used");
   }
@@ -72,7 +78,7 @@ class Scope {
   }
 }
 
-export class Wirth {
+export class Nor {
   constructor(s, callbackoutput) {
     this.s = s.replaceAll("\r", "");
     this.vars = {};

@@ -1,34 +1,28 @@
-# Wirth - 削ぎ落とした構造化プログラミング言語
+# Nor - たった一つ演算子"nor"のみをサポートするプログラミング言語
 
-![wirth logo](wirth-logo.png)
+![Nor logo](nor-logo.svg)
 
 [English](README.md) / [日本語](README_ja.md)
 
-Wirth（ヴィルトと発音します）は、教育用構造化プログラミング言語「[Pascal](https://ja.wikipedia.org/wiki/Pascal)」の開発者である[ニクラウス・ヴィルト氏](https://ja.wikipedia.org/wiki/%E3%83%8B%E3%82%AF%E3%83%A9%E3%82%A6%E3%82%B9%E3%83%BB%E3%83%B4%E3%82%A3%E3%83%AB%E3%83%88)に敬意を表し、その名を冠した2025年生まれの新しいプログラミング言語です。([DNCL3](https://github.com/code4fukui/DNCL3)を元に開発されました。)
+Norは、演算子として「nor」のみサポートする構造化プログラミング言語です。 ([Wirth](https://github.com/code4fukui/Wirth)をベースに開発されました。)
 
-シンプルさと優雅さを追求した記述を特徴とし、構造化プログラミングを通じて次世代のコンピューター教育を支えるために設計されています。
+Norのソースファイル拡張子は「.nor」であり、MIMEタイプは「text/nor」となります。
 
-Wirthのソースファイル拡張子は「.wirth」であり、MIMEタイプは「text/wirth」となります。
-
-- ブラウザで動作する実行環境 [Wirth Playground](https://code4fukui.github.io/Wirth/)
-- HTMLへの組み込み例 [Wirth on web](https://code4fukui.github.io/Wirth/dnclweb.html)
+- ブラウザで動作する実行環境 [Nor Playground](https://code4fukui.github.io/Nor/)
+- HTMLへの組み込み例 [Nor on web](https://code4fukui.github.io/Nor/norweb.html)
 ```html
-<script type="module" src="https://code4fukui.github.io/Wirth/web.js"></script>
-<script type="text/wirth">
-sum = 0
-for i = 1 to 10
-  sum = sum + i
-next
-print i
+<script type="module" src="https://code4fukui.github.io/Nor/web.js"></script>
+<script type="text/nor">
+print 1 nor 0
 </script>
 ```
 
-- CLI(Command Line Interface): BMI計算 [examples/bmi.wirth](examples/bmi.wirth)
+- CLI(Command Line Interface): 足し算 [examples/add.nor](examples/add.nor)
 ```sh
-deno -A https://code4fukui.github.io/Wirth/cli.js examples/bmi.wirth
+deno -A https://code4fukui.github.io/Nor/cli.js examples/add.nor
 ```
 
-- デバッグ用アプリ [wirth2js](https://code4fukui.github.io/Wirth/wirth2js.html)
+- デバッグ用アプリ [nor2js](https://code4fukui.github.io/Nor/nor2js.html)
 
 ## 1. 変数と値
 
@@ -90,65 +84,16 @@ print s[0],s[2] # A C と表示される
 
 ## 4. 演算
 
-この節では、算術演算と比較演算、そして論理演算について説明します。比較演算やそれを組み合わせる論理演算は、条件分岐文（5.1節）や条件繰返し文（5.2節）の〈条件〉で使うことができます。
+演算子は「nor」のみ使用可能です。
 
-### 4.1. 算術演算
-
-加減乗除の四則演算は、「+」、「-」、「*」、「/」で指定します。
-
-整数の除算では、商を「//」で、余りを「%」で計算することができます。
-
-- 例: val = 7 / 2 　 （valには3.5が代入されます。）
-- 例: quo = 7 // 2 　 （quoには3が代入されます。）
-- 例: remain = 10 % 3 （remainには1が代入されます。）
-
-複数の演算子を使った式の計算では、基本的に左側の演算子が先に計算されますが、「*」、「/」、「//」、「%」は、「+」、「-」より先に計算されます。また、丸括弧「(」と「)」で式をくくって、演算の順序を明示することができます。
-
-- 例: x = a - b - c は、x = (a - b) - c と同じです。
-- 例: n = 1 + a // 3 は、n = 1 + (a // 3) と同じです。
-- 例: ave = (a + b) // 2 は、ave = a + b // 2 と異なります。
-
-文字列の算術演算は「+」のみ使用することができます。前後のいずれかが文字列の場合、文字列として連結します。
-
-### 4.2. 比較演算
-
-数値の比較演算は、「==」、「!=」、「>」、「>=」、「<=」、「<」で指定します。演算結果は、真か偽の値となります。
-
-- 例: n > 3 （nが3より大きければ真となります。）
-- 例: n * 2 <= 8 （nの2倍が8以下であれば真となります。）
-- 例: n != 0 （nが0でなければ真となります。）
-
-文字列の比較演算は、「==」、「!=」を利用することができます。「==」は、左辺と右辺が同じ文字列の場合に真となり、それ以外の場合は偽となります。「!=」は、左辺と右辺が異なる文字列の場合に真となり、それ以外の場合（同じ文字列の場合）は偽となります。
-
-- 例: "あいうえお" == "あいうえお" （真となります。）
-- 例: "あいうえお" == "あいう" （偽となります。）
-- 例: "ABC" == " ABC" （真となります。）
-- 例: "ABC" == "abc" （偽となります。）
-- 例: "あいうえお" != "あいうえお" （偽となります。）
-- 例: "あいうえお" !=  "あいう" （真となります。）
-- 例: "ABC" != "ABC" （偽となります。）
-- 例: "ABC" != "abc" （真となります。）
-
-### 4.3 論理演算
-
-論理演算は、真か偽を返す式に対する演算で、「and」、「or」、「not」の演算子で指定します。「not」、「and」、「or」の順で、同一の演算子の場合は左が優先されますが、丸括弧「(」と「)」で、演算の順序を指定することができます。
-
-「〈式1〉 and 〈式2〉」は、〈式1〉と〈式2〉の結果がいずれも真である場合に真となり、それ以外の場合は偽となります。
-
-「〈式1〉 or 〈式2〉」は、〈式1〉と〈式2〉の結果のどちらかが真である場合に真となり、それ以外の場合は偽となります。
-
-「not 〈式〉」は、〈式〉の結果が真である場合に偽となり、偽の場合は真となります。
-
-- 例: n >= 12 and n <= 27 （nが12以上27以下なら真となります。）
-- 例: n % 2 == 0 or n < 0 （nが偶数か負の値なら真となります。）
-- 例: not n > 75 （nが75 より大きくなければ真となります。）
-- 例: n > 12 and not n < 27 は、n > 12 and (not n < 27) と同じです。
-- 例: not n > 12 and n < 27 は、(not n > 12) and n < 27 と同じです。
-- 例: n == 0 or n > 12 and n < 27 は、n == 0 or (n > 12 and n < 27) と同じです。（「and」が先に実行されるため。）
+- 例: val = 0 nor 0 (valには1が代入されます。)
+- 例: val = 0 nor 1 (valには0が代入されます。)
+- 例: val = 1 nor 0 (valには0が代入されます。)
+- 例: val = 1 nor 1 (valには0が代入されます。)
 
 ## 5. 制御文
 
-条件分岐文（5.1節）、順次繰返し文（5.2節）、条件繰返し文（5.3節）、をまとめて制御文と呼びます。条件分岐文や条件繰返し文の中の〈条件〉として、比較演算（4.2節）と論理演算（4.3節）を使用することができます。
+条件分岐文（5.1節）、順次繰返し文（5.2節）、条件繰返し文（5.3節）、をまとめて制御文と呼びます。条件分岐文や条件繰返し文の中の〈条件〉として、演算（4節）を使用することができます。
 
 ### 5.1 条件分岐文
 
@@ -164,9 +109,9 @@ endif
 
 例:
 ```
-if x < 3
-  x = x + 1
-  y = y - 1
+if a
+  x = x nor 1
+  y = y nor 1
 endif
 ```
 
@@ -182,10 +127,10 @@ endif
 
 例
 ```
-if x < 3
-  x = x + 1
+if a
+  x = x nor 1
 else
-  x = x - 1
+  x = x nor 0
 endif
 ```
 
@@ -203,12 +148,12 @@ endif
 
 例:
 ```
-if x == 3
-  x = x + 1
-elseif y > 2
-  y = y + 1
+if a
+  x = x nor 1
+elseif b
+  y = y nor 1
 else
-  y = y - 1
+  y = y nor 0
 endif
 ```
 
@@ -231,7 +176,7 @@ next
 例:
 ```
 for x = 1 to 10 step 1
-  sum = sum + x
+  sum = sum nor x
 next
 ```
 
@@ -240,7 +185,7 @@ next
 例:
 ```
 for x = 1 to 10
-  sum = sum + x
+  sum = sum nor x
 next
 ```
 
@@ -249,7 +194,7 @@ next
 例:
 ```
 for x = 10 to 1 step -1
-  sum = sum + x
+  sum = sum nor x
 next
 ```
 
@@ -271,9 +216,9 @@ next
 
 例:
 ```
-while x < 10
-  sum = sum + x
-  x = x + 1
+while x
+  sum = sum nor x
+  x = x nor 1
 next
 ```
 
@@ -292,9 +237,9 @@ until <条件>
 例:
 ```
 do
-  sum = sum + x
-  x = x + 1
-until x >= 10
+  sum = sum nor x
+  x = x nor 1
+until x
 ```
 
 ### 5.4. 繰返しの中断
@@ -327,42 +272,24 @@ end
 
 引数列の変数や、機能内で新たに代入された変数は、その機能内でのみ使用できます。
 
-基本的に機能内で機能外の変数も使用できますが、引数列の変数と同名の機能外の変数は、機能内で使用できません。
+関数外の変数は参照することはできますが、代入することはできません。代入は関数内でのみ使用できる同名の変数に代入され、関数外の変数は変わりません。
 
-例: 1から正の整数nまでの和を表示する機能「print_sum(n)」の定義例
+例: 値nの否定を表示する"print_not(n)"の定義例
 ```
-function print_sum(n)
-  sum = 0
-  for i = 1 to n
-    sum = sum + i
-  next
-  print sum
-end
-```
-
-例: 値mのn乗の値を表示する機能「print_power(m, n)」の定義例
-```
-function print_power(m, n)
-  p = 1
-  for i = 1 to n
-    p = p * m
-  next
-  print p
+function print_not(n)
+  print n nor n
 end
 ```
 
 「return」を使用して値を返す機能を定義することができます。値を指定せずに「return」を使用すると値を返さず機能内の処理を終えることができます。
 
-例: 値mのn乗の値を返す機能「べき乗(m, n)」の定義例
+例: orの演算をする機能"or(a, b)"の定義例
 ```
-function power(m, n)
-  p = 1
-  for i = 1 to n
-    p = p * m
-  next
-  return p
+function or(a, b)
+  return not(a nor b)
 end
 ```
+
 
 ## 7. コメント
 
@@ -383,4 +310,4 @@ n = rnd() # 0以上1未満のランダムな小数をnに代入する
 
 ## reference
 
-- [DNCL3](https://github.com/code4fukui/DNCL3)
+- [Wirth](https://github.com/code4fukui/Wirth)
