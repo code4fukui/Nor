@@ -1,4 +1,4 @@
-# Nor - only "nor" operator language
+# Nor - a one-operator programming language
 
 ![Nor logo](nor-logo.svg)
 
