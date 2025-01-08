@@ -1,7 +1,7 @@
 <!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><link rel="icon" href="data:">
-<title>Wirth → AST → like JavaScript → output</title>
+<title>Nor → AST → like JavaScript → output</title>
 </head><body>
-<h1>Wirth → AST → like JavaScript → output</h1>
+<h1>Nor → AST → like JavaScript → output</h1>
 <main>
 <div class=diveditor id=divprog></div>
 <div class=diveditor id=divast></div>
@@ -9,7 +9,7 @@
 <div class=diveditor id=divrun></div>
 </main>
 
-<a href=https://github.com/code4fukui/Wirth/>src on GitHub</a>
+<a href=https://github.com/code4fukui/Nor/>src on GitHub</a>
 
 <style>
 h1 {
@@ -27,7 +27,7 @@ a {
 </style>
 
 <script type="module">
-import { Wirth } from "./Wirth.js";
+import { Nor } from "./Nor.js";
 import escodegen from "https://code4fukui.github.io/escodegen/escodegen.js";
 import { monaco } from "https://code4fukui.github.io/monaco-editor/monaco.js";
 
@@ -77,7 +77,7 @@ let bkval = null;
 const onchange = () => {
   const src = prog.getValue();
   try {
-    const runtime = new Wirth(src, (s) => {
+    const runtime = new Nor(src, (s) => {
       run.setValue(run.getValue() + s + "\n");
     });
     const astjson = runtime.ast;
@@ -117,10 +117,10 @@ setInterval(() => {
 //const fn = "input";
 //const fn = "test";
 //const fn = "elseif";
-const fn = "func";
+const fn = "nor";
 
 const fn0 = location.hash.substring(1) || fn;
-const firstprog = await (await fetch("examples/" + fn0 + ".wirth")).text();
+const firstprog = await (await fetch("examples/" + fn0 + ".nor")).text();
 
 prog.setValue(firstprog);
 onchange();
