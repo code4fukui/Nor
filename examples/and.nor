@@ -1,0 +1,13 @@
+# 4. and
+function not(a)
+  return a nor a
+end
+
+function and(a, b)
+  return not(a) nor not(b)
+end
+
+print and(0, 0)
+print and(0, 1)
+print and(1, 0)
+print and(1, 1)

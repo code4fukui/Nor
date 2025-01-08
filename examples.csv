@@ -1,21 +1,8 @@
 ﻿fn,title
-print.wirth,1. print value
-var.wirth,2. variables and calculation
-varja.wirth,3. var name by Japanese
-const.wirth,4. constant
-if.wirth,5. if condition
-elseif.wirth,6. if / elseif condition
-input.wirth,7. input
-string.wirth,8. string
-bmi.wirth,9. BMI calculation
-array.wirth,10. array
-for.wirth,11. for - Sequential Loop Statements
-while.wirth,12. while - pre-check loop
-dountil.wirth,13. do until - post-check loop
-comment.wirth,14. comment
-func.wirth,15. function
-funcja.wirth,16. function in Japanese
-printbin.wirth,17. print binary
-geo3x3.wirth,18. encode and decode of Geo3x3
-scope.wirth,19. scope of variable
-recursive.wirth,21. recursive call Fibonacci
+nor.nor,1. nor
+not.nor,2. not
+or.nor,3. or
+and.nor,4. and
+halfadder.nor,5. half adder
+fulladder.nor,6. full adder
+add.nor,7. 4bit add

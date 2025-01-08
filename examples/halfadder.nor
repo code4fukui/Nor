@@ -1,0 +1,23 @@
+# 5. half adder
+function not(a)
+  return a nor a
+end
+
+function or(a, b)
+  return not(a nor b)
+end
+
+function and(a, b)
+  return not(a) nor not(b)
+end
+
+function halfadder(a, b)
+  c = and(a, b)
+  s = and(or(a, b), not(c))
+  return [c, s]
+end
+
+print halfadder(0, 0)
+print halfadder(0, 1)
+print halfadder(1, 0)
+print halfadder(1, 1)

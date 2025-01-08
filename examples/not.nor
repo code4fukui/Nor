@@ -1,0 +1,7 @@
+# 2. not
+function not(a)
+  return a nor a
+end
+
+print not(0)
+print not(1)

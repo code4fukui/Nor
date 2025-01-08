@@ -6,7 +6,8 @@ const reserved = [
   "if", "else", "elseif", "endif",
   "for", "to", "step", "next", "while", "do", "until", "break",
   "function", "return", "end",
-  "and", "or", "not",
+  //"and", "or", "not",
+  "nor",
 ];
 
 const isNumber = (c) => "0123456789".indexOf(c) >= 0;
@@ -57,6 +58,7 @@ class Scope {
     throw new Error("undefined var " + name + " is used");
   }
   setVar(name, o, forcelocal = false) {
+    /*
     if (!forcelocal) {
       for (let scope = this; scope; scope = scope.parent) {
         if (scope.vars[name] !== undefined) {
@@ -65,6 +67,7 @@ class Scope {
         }
       }
     }
+    */
     this.vars[name] = o;
   }
 }
@@ -132,6 +135,9 @@ export class Wirth {
           this.p--;
           const w = res.join("");
           if (reserved.indexOf(w) >= 0) {
+            if (w == "nor") {
+              return { pos, type: "operator", operator: "nor" };
+            }
             return { pos, type: w };
           } else {
             return { pos, type: "var", name: w };
@@ -203,6 +209,7 @@ export class Wirth {
     for (;;) {
       const op = this.getToken();
       if (op.type != "operator" || (
+          op.operator != "nor" &&
           op.operator != "*" &&
           op.operator != "/" &&
           op.operator != "%" &&
@@ -213,7 +220,7 @@ export class Wirth {
       }
       const v2 = this.getValue();
       const o = op.operator;
-      if (o != "*" && o != "/" && o != "%" && o != "//") {
+      if (o != "nor" && o != "*" && o != "/" && o != "%" && o != "//") {
         //throw new Error("非対応の演算子が使われています: " + o);
         throw new Error("illegal operator: " + o);
       }
@@ -1154,7 +1161,9 @@ export class Wirth {
       if (typeof n == "string" || typeof m == "string") {
         if (op != "+" && op != "==" && op != "!=") throw new Error("文字列では使用できない演算子です: " + op);
       }
-      if (op == "+") {
+      if (op == "nor") {
+        return n || m ? 0 : 1;
+      } else if (op == "+") {
         return n + m;
       } else if (op == "-") {
         return n - m;
