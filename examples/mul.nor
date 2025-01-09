@@ -1,0 +1,81 @@
+# 10. 4bit mul
+function not(a)
+  return a nor a
+end
+
+function or(a, b)
+  return not(a nor b)
+end
+
+function and(a, b)
+  return not(a) nor not(b)
+end
+
+function halfadd(a, b)
+  c = and(a, b)
+  s = and(or(a, b), not(c))
+  return [c, s]
+end
+
+function fulladd(a, b, x)
+  cs1 = halfadd(a, b)
+  cs2 = halfadd(cs1[1], x)
+  c = or(cs1[0], cs2[0])
+  s = cs2[1]
+  return [c, s]
+end
+
+function add(a, b)
+  x = 0
+  s = [0, 0, 0, 0]
+  for i = 3 to 0 step -1
+    cs = fulladd(a[i], b[i], x)
+    x = cs[0]
+    s[i] = cs[1]
+  next
+  return s
+end
+
+function complement(a)
+  s = [0, 0, 0, 0]
+  for i = 0 to 3
+    s[i] = not(a[i])
+  next
+  return add(s, [0, 0, 0, 1])
+end
+
+function sub(a, b)
+  return add(a, complement(b))
+end
+
+function iszero(a)
+  for i = 0 to 3
+    if a[i]
+      return 0
+    endif
+  next
+  return 1
+end
+
+function mul2(a)
+  res = [0, 0, 0, 0]
+  for i = 0 to 2
+    res[i] = a[i + 1]
+  next
+  return res
+end
+
+function mul(a, b)
+  c = [0, 0, 0, 0]
+  for i = 0 to 3
+    if b[3 - i]
+      c = add(c, a)
+    endif
+    a = mul2(a)
+  next
+  return c
+end
+
+a = [0, 1, 0, 1] # 5
+b = [0, 0, 1, 1] # 3
+print mul(a, b)

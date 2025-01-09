@@ -7,3 +7,5 @@ halfadd.nor,5. half add
 fulladd.nor,6. full add
 add.nor,7. 4bit add
 sub.nor,8. 4bit sub
+loop10.nor,9. 4bit loop 10
+mul.nor,10. 4bit mul
