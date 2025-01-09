@@ -6,3 +6,4 @@ and.nor,4. and
 halfadd.nor,5. half add
 fulladd.nor,6. full add
 add.nor,7. 4bit add
+sub.nor,8. 4bit sub
