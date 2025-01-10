@@ -85,7 +85,7 @@ Only one arithmetic operation "nor".
 
 Conditional statements switch the execution flow based on whether a condition is true or false.
 
-If the condition is 1, a specific process is executed, and if there is no process to execute when the condition is 0, it can be specified as follows.
+If the condition is not 0, a specific process is executed, and if there is no process to execute when the condition is 0, it can be specified as follows.
 
 ```
 if <condition>
@@ -101,7 +101,7 @@ if x
 endif
 ```
 
-To execute a process when the condition is true and a different process when the condition is false, use "else" as follows.
+To execute a process when the condition is not 0 and a different process when the condition is 0, use "else" as follows.
 
 ```
 if <condition>
@@ -143,7 +143,7 @@ else
 endif
 ```
 
-### 6. Loop Statements
+## 6. Loop Statements
 
 A loop statement repeatedly executes the <process>.
 
