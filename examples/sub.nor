@@ -1,4 +1,4 @@
-# 8. 4bit sub
+# 9. 4bit sub
 function not(a)
   return a nor a
 end
@@ -26,21 +26,16 @@ function fulladd(a, b, x)
 end
 
 function add(a, b)
-  x = 0
-  s = [0, 0, 0, 0]
-  for i = 3 to 0 step -1
-    cs = fulladd(a[i], b[i], x)
-    x = cs[0]
-    s[i] = cs[1]
-  next
+  cs0 = fulladd(a[3], b[3], 0)
+  cs1 = fulladd(a[2], b[2], cs0[0])
+  cs2 = fulladd(a[1], b[1], cs1[0])
+  cs3 = fulladd(a[0], b[0], cs2[0])
+  s = [cs3[1], cs2[1], cs1[1], cs0[1]]
   return s
 end
 
 function complement(a)
-  s = [0, 0, 0, 0]
-  for i = 0 to 3
-    s[i] = not(a[i])
-  next
+  s = [not(a[0]), not(a[1]), not(a[2]), not(a[3])]
   return add(s, [0, 0, 0, 1])
 end
 
@@ -50,5 +45,4 @@ end
 
 a = [1, 0, 1, 0] # 10
 b = [0, 1, 1, 1] # 7
-print complement(a)
 print sub(a, b)

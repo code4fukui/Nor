@@ -4,7 +4,8 @@ const reserved = [
   "print",
   //"input",
   "if", "else", "elseif", "endif",
-  "for", "to", "step", "next", "while", "do", "until", "break",
+  //"for", "to", "step", "next", "while", "do", "until", "break",
+  "loop", "next", "break",
   "function", "return", "end",
   //"and", "or", "not",
   "nor",
@@ -210,69 +211,32 @@ export class Nor {
   backToken(token) {
     this.p = token.pos;
   }
-  getExpression1() {
-    let res = this.getValue();
-    for (;;) {
-      const op = this.getToken();
-      if (op.type != "operator" || (
-          op.operator != "nor" &&
-          op.operator != "*" &&
-          op.operator != "/" &&
-          op.operator != "%" &&
-          op.operator != "//"
-      )) {
-        this.backToken(op);
-        return res;
-      }
-      const v2 = this.getValue();
-      const o = op.operator;
-      if (o != "nor" && o != "*" && o != "/" && o != "%" && o != "//") {
-        //throw new Error("非対応の演算子が使われています: " + o);
-        throw new Error("illegal operator: " + o);
-      }
-      res = {
-        type: "BinaryExpression",
-        left: res,
-        operator: o,
-        right: v2,
-      };
-    }
-  }
   getExpression() {
-    let res = this.getExpression1();
+    let res = this.getValue(); //this.getExpression1();
     for (;;) {
       const op = this.getToken();
       if (op.type != "operator" || op.operator == ",") {
         this.backToken(op);
         return res;
       }
-      const v2 = this.getExpression1();
-      if (op.operator == "+") {
+      const v2 = this.getValue(); // this.getExpression1();
+      if (op.operator == "nor") {
         res = {
           type: "BinaryExpression",
           left: res,
-          operator: "+",
+          operator: "nor",
           right: v2,
         };
       } else {
-        if (typeof res == "string" || typeof v2 == "string") {
-          //throw new Error("文字列では使用できない演算子です");
-          throw new Error("this operator can not use for string");
-        }
-        if (op.operator == "-") {
-          res = {
-            type: "BinaryExpression",
-            left: res,
-            operator: "-",
-            right: v2,
-          };
-        } else {
-          //throw new Error("未対応の演算子です : " + op.operator);
-          this.backToken(op);
-          return res;
-        }
+        //throw new Error("未対応の演算子です : " + op.operator);
+        throw new Error("unsupported operator : " + op.operator);
+        //this.backToken(op);
+        return res;
       }
     }
+  }
+  getCondition() {
+    return this.getExpression();
   }
   getValue() {
     const t1 = this.getToken();
@@ -344,118 +308,9 @@ export class Nor {
         },
         arguments: args,
       };
-
-      /*
-    } else if (t1.operator == "-") {
-      const t2 = this.getToken();
-      if (t2.type == "num") {
-        return {
-          type: "Literal",
-          value: -t2.value,
-        };
-      } else {
-        throw new Error("式ではないものが指定されています : " + t1.type);
-      }
-      */
     } else {
       //throw new Error("式ではないものが指定されています : " + t1.type);
       throw new Error("illegal expression: " + t1.type);
-    }
-  }
-  getConditionValue1() {
-    const t1 = this.getToken();
-    if (t1.type == "(") {
-      const res = this.getCondition();
-      const t2 = this.getToken();
-      if (t2.type != ")") {
-        //throw new Error("カッコが閉じられていません");
-        throw new Error("missing blacket close");
-      }
-      return res;
-    } else {
-      this.backToken(t1);
-    }
-    //const v1 = this.getValue();
-    const v1 = this.getExpression();
-    const op = this.getToken();
-    if (op.type != "operator") {
-      this.backToken(op);
-      return v1;
-    }
-    //const v2 = this.getValue();
-    const v2 = this.getExpression();
-    if (["==", "!=", ">", "<", ">=", ">=", "<="].indexOf(op.operator) == -1) {
-      //throw new Error("条件式で未対応の演算子です : " + op.operator);
-      throw new Error("illegal operator in condition : " + op.operator);
-    }
-    return {
-      type: "BinaryExpression",
-      left: v1,
-      operator: op.operator,
-      right: v2,
-    };
-  }
-  getConditionValue() {
-    const chknot = this.getToken();
-    let flg = true;
-    if (chknot.type == "not") {
-      flg = false;
-    } else {
-      this.backToken(chknot);
-    }
-    const n = this.getConditionValue1();
-    if (flg) {
-      return n;
-    } else {
-      return {
-        type: "UnaryExpression",
-        operator: "not",
-        argument: n,
-      };
-    }
-  }
-  getConditionAnd() {
-    let res = this.getConditionValue();
-    for (;;) {
-      const op = this.getToken();
-      if (op.type != "and") {
-        this.backToken(op);
-        return res;
-      }
-      const v2 = this.getConditionValue();
-      if (op.type == "and") {
-        res = {
-          type: "BinaryExpression",
-          left: res,
-          operator: "and",
-          right: v2,
-        };
-      } else {
-        //throw new Error("未対応の演算子です : " + op.operator);
-        throw new Error("illegal operator : " + op.operator);
-      }
-    }
-  }
-  getCondition() {
-    let res = this.getConditionAnd();
-    for (;;) {
-      const op = this.getToken();
-      if (op.type != "or") {
-        this.backToken(op);
-        return res;
-      }
-      const v2 = this.getConditionAnd();
-      if (op.type == "or") {
-        res = {
-          type: "BinaryExpression",
-          left: res,
-          operator: "or",
-          right: v2,
-        };
-      } else {
-        //throw new Error("未対応の演算子です : " + op.operator);
-        throw new Error("illegal operator : " + op.operator);
-      }
     }
   }
   getVar(name) {
@@ -505,7 +360,7 @@ export class Nor {
   }
   parseCommand(body, forcetoken) {
     const token = forcetoken || this.getToken();
-    //console.log("parseCommand", token);
+    console.log("parseCommand", token);
     if (token.type == "eof") return false;
     if (BLACKET_MODE) {
       if (token.type == "}") {
@@ -734,6 +589,33 @@ export class Nor {
           alternate: null,
         });
       }
+    } else if (token.type == "loop") {
+      if (BLACKET_MODE) {
+        const tthen = this.getToken();
+        if (tthen.type != "{") throw new Error(`loop文の後に"{"がありません`);
+      }
+      const then = [];
+      for (;;) {
+        if (!this.parseCommand(then)) {
+          const endblacket = this.getToken();
+          if (BLACKET_MODE) {
+            if (endblacket.type != "}") throw new Error(`loop文が"}"で閉じられていません`);
+          } else {
+            if (endblacket.type != "next") throw new Error(`loop must have next`);
+          }
+          break;
+        }
+      }
+      body.push({
+        type: "ForStatement",
+        init: null,
+        test: null,
+        update: null,
+        body: {
+          type: "BlockStatement",
+          body: then,
+        }
+      });
     } else if (token.type == "while") {
       const cond = this.getCondition();
       //console.log("tthen", tthen);
@@ -985,10 +867,24 @@ export class Nor {
       if (c.type == "eof") break;
     }
   }
+  binarray2int(a) {
+    let res = 0;
+    let m = 0;
+    for (let i = a.length - 1; i >= 0; i--) {
+      res += a[i] << m;
+      m++;
+    }
+    return res;
+  }
   getArrayIndex(ast, scope) {
     const prop = this.calcExpression(ast, scope);
-    if (prop < 0 || typeof prop == "string" && parseInt(prop).toString() != prop) {
-      throw new Error("配列には0または正の整数のみ指定可能です");
+    if (typeof prop == "number") return prop;
+    if (Array.isArray(prop)) {
+      return this.binarray2int(prop);
+    } else {
+    //if (prop < 0 || typeof prop == "string" && parseInt(prop).toString() != prop) {
+      //throw new Error("配列には0または正の整数のみ指定可能です");
+      throw new Error("array index must be number or binary array of numbers");
     }
     return prop;
   }
@@ -1082,13 +978,19 @@ export class Nor {
           }
         }
       } else if (cmd.type == "ForStatement") {
-        this.runBlock(cmd.init, scope);
+        if (cmd.init) {
+          this.runBlock(cmd.init, scope);
+        }
         try {
           for (let i = 0;; i++) {
-            const cond = this.calcExpression(cmd.test, scope);
-            if (!cond) break;
+            if (cmd.test) {
+              const cond = this.calcExpression(cmd.test, scope);
+              if (!cond) break;
+            }
             this.runBlock(cmd.body, scope);
-            this.runBlock(cmd.update, scope);
+            if (cmd.update) {
+              this.runBlock(cmd.update, scope);
+            }
             if (i >= MAX_LOOP) {
               throw new Error(MAX_LOOP + "回の繰り返し上限に達しました");
             }
@@ -1148,15 +1050,6 @@ export class Nor {
       } else {
         return v[idx];
       }
-    } else if (ast.type == "UnaryExpression") {
-      const n = this.calcExpression(ast.argument, scope);
-      if (ast.operator == "not") {
-        return !n;
-      } else if (ast.operator == "-") {
-        return -n;
-      } else {
-        throw new Error("対応していない演算子 " + ast.operator + " です");
-      }
     } else if (ast.type == "ArrayExpression") {
       const ar = ast.elements.map(i => this.calcExpression(i, scope));
       return ar;
@@ -1164,41 +1057,10 @@ export class Nor {
       const n = this.calcExpression(ast.left, scope);
       const m = this.calcExpression(ast.right, scope);
       const op = ast.operator;
-      if (typeof n == "string" || typeof m == "string") {
-        if (op != "+" && op != "==" && op != "!=") throw new Error("文字列では使用できない演算子です: " + op);
-      }
       if (op == "nor") {
         return n || m ? 0 : 1;
-      } else if (op == "+") {
-        return n + m;
-      } else if (op == "-") {
-        return n - m;
-      } else if (op == "*") {
-        return n * m;
-      } else if (op == "/") {
-        return n / m;
-      } else if (op == "%") {
-        return n % m;
-      } else if (op == "//") {
-        return Math.floor(n / m);
-      } else if (op == "==") {
-        return n == m;
-      } else if (op == "!=") {
-        return n != m;
-      } else if (op == "<") {
-        return n < m;
-      } else if (op == "<=") {
-        return n <= m;
-      } else if (op == ">") {
-        return n > m;
-      } else if (op == ">=") {
-        return n >= m;
-      } else if (op == "and") {
-        return n && m;
-      } else if (op == "or") {
-        return n || m;
       } else {
-        throw new Error("対応していない演算子が使われました");
+        throw new Error("unsupported operator : " + op);
       }
     } else if (ast.type == "CallExpression") {
       const name = ast.callee.name;

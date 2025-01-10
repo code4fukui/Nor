@@ -26,7 +26,7 @@ deno -A https://code4fukui.github.io/Nor/cli.js examples/add.nor
 
 ## 1. Variables and Values
 
-A variable name consists of alphanumeric characters starting with a letter, along with underscores (_) or local characters. However, reserved words (such as print, input, and, or, not, if, else, elseif, endif, for, to, step, next, do, while, until, break, function, end, return) cannot be used as variable names.
+A variable name consists of alphanumeric characters starting with a letter, along with underscores (_) or local characters. However, reserved words (such as nor, print, input, if, else, elseif, endif, loop, break, function, end, return) cannot be used as variable names.
 
 - ex: n, sum, points
 

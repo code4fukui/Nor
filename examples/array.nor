@@ -1,0 +1,7 @@
+# 7. array
+a = [1, 1, 0, 1]
+idx = [0, 0]
+print a[idx]
+print a[[0, 1]]
+print a[[1, 0]]
+print a[[1, 1]]
