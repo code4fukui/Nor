@@ -878,15 +878,15 @@ export class Nor {
   }
   getArrayIndex(ast, scope) {
     const prop = this.calcExpression(ast, scope);
-    if (typeof prop == "number") return prop;
-    if (Array.isArray(prop)) {
+    if (typeof prop == "number") {
+      return prop;
+    } else if (Array.isArray(prop)) {
       return this.binarray2int(prop);
     } else {
     //if (prop < 0 || typeof prop == "string" && parseInt(prop).toString() != prop) {
       //throw new Error("配列には0または正の整数のみ指定可能です");
       throw new Error("array index must be number or binary array of numbers");
     }
-    return prop;
   }
   runBlock(ast, scope) {
     const body = ast.type == "BlockStatement" || 
