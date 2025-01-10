@@ -287,7 +287,7 @@ export class Nor {
   }
   parseCommand(body, forcetoken) {
     const token = forcetoken || this.getToken();
-    console.log("parseCommand", token);
+    //console.log("parseCommand", token);
     if (token.type == "eof") return false;
     if (BLACKET_MODE) {
       if (token.type == "}") {
