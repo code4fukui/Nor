@@ -81,11 +81,7 @@ Only one arithmetic operation "nor".
 - ex: val = 1 nor 0 (The value 0 is assigned to val.)
 - ex: val = 1 nor 1 (The value 0 is assigned to val.)
 
-## 5. Control Statements
-
-Control statements refer to conditional statements (Section 5.1), sequential loop statements (Section 5.2), conditional loop statements (Section 5.3), and loop interruption (Section 5.4). Operations (Section 4) can be used as conditions within conditional statements and conditional loop statements.
-
-### 5.1. Conditional Statements
+## 5. Conditional Statements
 
 Conditional statements switch the execution flow based on whether a condition is true or false.
 
@@ -147,105 +143,29 @@ else
 endif
 ```
 
-### 5.2. Sequential Loop Statements
+### 6. Loop Statements
 
-A sequential loop statement repeatedly executes a process while incrementing the value of a variable.
+A loop statement repeatedly executes the <process>.
 
 ```
-for <variable> = <initial value> to <end value> step <increment>
+loop
   <process>
 next
 ```
 
-A sequential loop statement is executed in the following steps:
-
-1. The initial value is assigned to <variable>.
-2. If the value of <variable> is greater than the <end value>, the loop ends.
-3. The <process> is executed, the <increment> is added to <variable>, and the loop returns to step 2.
-
-ex:
-```
-for x = 1 to 10 step 1
-  sum = sum nor x
-next
-```
-
-If the <increment> is 1, the step part can be omitted.
-
-ex:
-```
-for x = 1 to 10
-  sum = sum nor x
-next
-```
-
-If a negative value is specified for <increment>, the value of <variable> decreases from the <initial value>, and the <process> is repeatedly executed until the value becomes less than the <end value>.
-
-ex:
-```
-for x = 10 to 1 step -1
-  sum = sum nor x
-next
-```
-
-### 5.3. Conditional Loop Statements
-
-There are two types of conditional loop statements: 'pre-check' and 'post-check'.
-
-#### 5.3.1. pre-check
-
-The <process> is repeatedly executed as long as the <condition> is true.
-
-Since the <condition> is evaluated before executing the <process>, it is possible that the <process> will not be executed even once.
-
-```
-while <condition>
-  <process>
-next
-```
-
-ex:
-```
-while x
-  sum = sum nor x
-  x = x nor 1
-next
-```
-
-#### 5.3.2. post-check
-
-The <process> is repeatedly executed until the <condition> becomes true.
-
-Since the <condition> is evaluated after executing the <process>, the <process> is executed at least once.
-
-```
-do
-  <process>
-until <condition>
-```
-
-ex:
-```
-do
-  sum = sum nor x
-  x = x nor 1
-until x
-```
-
-### 5.4. Loop Interruption
-
 Within a loop statement, using break interrupts the loop.
 
 ```
-while <condition>
+loop
+  <process1>
   if <condition>
     break
   endif
-  <process>
+  <process2>
 next
 ```
 
-## 6. Functions
+## 7. Functions
 
 A function is defined as follows.
 
@@ -277,7 +197,7 @@ function or(a, b)
 end
 ```
 
-## 7. Comment
+## 8. Comment
 
 - In a single line, any text following "#" is considered a comment and is not executed as part of the code.
 
