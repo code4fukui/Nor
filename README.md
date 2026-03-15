@@ -1,5 +1,7 @@
 # Nor - a one-operator programming language
 
+> 日本語のREADMEはこちらです: [README.ja.md](README.ja.md)
+
 Nor is a structured programming language that only supports the "nor" operator.
 
 ## Demo
